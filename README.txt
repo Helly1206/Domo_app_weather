@@ -49,7 +49,7 @@ The following settings can be altered:
 		<server></server>								--> Domotion IP or name if not on local system
 		<port>60004</port>								--> Port on which the BDA server (Domotion) is running
 		<url>app_weather</url>							--> URL for BDA server (can be changed if more instances of the app are running)
-		<interval>6000</interval>						--> Interval for querying current weather
+		<interval>600</interval>						--> Interval for querying current weather
 		<times>											--> Time(s) for querying 5 days forecast
 			<time1>5:55</time1>							--> Time for querying 5 days forecast
 		</times>
