@@ -22,7 +22,7 @@
 		<server></server>
 		<port>60004</port>
 		<url>app_weather</url>
-		<interval>6000</interval>
+		<interval>600</interval>
 		<times>
 			<time1>5:55</time1>
 		</times>
