@@ -1,0 +1,13 @@
+# Domotion App Weather - Service for Domotion App Weather
+
+[Unit]
+Description=Domotion (Home control and automation) App Weather
+Wants=Domotion.service
+
+[Service]
+Type=simple
+ExecStart=/opt/Domo_app_weather/StartApp
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

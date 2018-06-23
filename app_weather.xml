@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domoapp>
+	<app>
+		<location>Herten, NL</location>
+		<unitsmetric>True</unitsmetric>
+		<apikey>0b993c7af6532540764666128b8962cd</apikey>
+		<weatheryahoo>False</weatheryahoo>
+		<conditionsdaily>
+			<high>24</high>
+			<low>-15</low>		
+		</conditionsdaily>
+		<conditionscurrent>
+			<temp>24</temp>
+			<condition1>
+				<precipation>1</precipation>
+				<clouds>70</clouds>
+			</condition1>
+		</conditionscurrent>
+	</app>
+	<common>
+		<verbose>False</verbose>
+		<server></server>
+		<port>60004</port>
+		<url>app_weather</url>
+		<interval>6000</interval>
+		<times>
+			<time1>5:55</time1>
+		</times>
+		<username></username>
+		<password></password>
+	</common>
+</domoapp>

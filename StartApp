@@ -1,0 +1,5 @@
+#!/usr/bin/python
+App="app_weather"
+app = getattr(__import__(App), "app")
+
+app().ismain()
