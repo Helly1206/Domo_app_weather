@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <domoapp>
 	<app>
-		<location>Herten, NL</location>
+		<location>New York, US</location>
 		<unitsmetric>True</unitsmetric>
-		<apikey>0b993c7af6532540764666128b8962cd</apikey>
+		<apikey></apikey>
 		<weatheryahoo>False</weatheryahoo>
 		<conditionsdaily>
 			<high>24</high>
