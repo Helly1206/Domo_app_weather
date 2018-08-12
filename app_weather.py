@@ -154,7 +154,7 @@ class app(appcommon):
             if self._getShade(appParams['conditionsdaily'], todaysparams):
                 shade = 1
         if 'conditionsdailyfull' in appParams:
-            if self._getShade(appParams['conditionsdaily'], todaysparams):
+            if self._getShade(appParams['conditionsdailyfull'], todaysparams):
                 shade = 2
     
         return shade
@@ -165,7 +165,7 @@ class app(appcommon):
             if self._getShade(appParams['conditionscurrent'], params):
                 shade = 1
         if 'conditionscurrentfull' in appParams:
-            if self._getShade(appParams['conditionscurrent'], params):
+            if self._getShade(appParams['conditionscurrentfull'], params):
                 shade = 2
     
         return shade
