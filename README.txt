@@ -1,4 +1,4 @@
-app_weather v0.9.0
+app_weather v0.9.1
 =========== ======
 
 This is a Domotion app optaining the weather from OpenWeatherMap or Yahoo weather. Weather information can be used in Domotion to control devices.
@@ -43,6 +43,13 @@ The following settings can be altered:
 				<clouds>70</clouds>						--> Clouds more that 70 %
 			</condition1>
 		</conditionscurrent>
+		<conditionsdailyfull>							--> Same as conditionsdaily, but to set the fullshade parameter
+			<high>28</high>
+			<low>-20</low>		
+		</conditionsdailyfull>
+		<conditionscurrentfull>							--> Same as conditionscurrent, but to set the fullshade parameter
+			<temp>28</temp>
+		</conditionscurrentfull>
 	</app>
 	<common>											--> Common settings for apps
 		<verbose>False</verbose>						--> Log verbosity, set to false except for debugging
@@ -87,6 +94,9 @@ precipationn
 cloudsn
 windspeedn
 windanglen
+
+shade
+fullshade
 
 That's all for now ...
 

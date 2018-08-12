@@ -1,2 +1,5 @@
+[B]0.9.1[/B]
+- Added ConditionsxxxFull parameters to be able to shade fully or have 2 different shade thresholds 
+
 [B]0.9.0[/B]
 - Initial release

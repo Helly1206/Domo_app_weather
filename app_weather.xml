@@ -16,6 +16,13 @@
 				<clouds>70</clouds>
 			</condition1>
 		</conditionscurrent>
+		<conditionsdailyfull>
+			<high>28</high>
+			<low>-20</low>		
+		</conditionsdailyfull>
+		<conditionscurrentfull>
+			<temp>28</temp>
+		</conditionscurrentfull>
 	</app>
 	<common>
 		<verbose>False</verbose>

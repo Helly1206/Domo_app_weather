@@ -30,8 +30,8 @@ class app(appcommon):
 #########################################################
     def init(self):
         self.weatherinfo = None
-        self.dailyshade = False
-        self.currentshade = False
+        self.dailyshade = 0
+        self.currentshade = 0
     
         self.logger.info("Starting app: app_weather")
         self.appParams=self.ReadAppParams()
@@ -63,6 +63,7 @@ class app(appcommon):
                     self.dailyshade = self.DailyShade(self.appParams, params)
                 if params:
                     params['shade']=self.dailyshade or self.currentshade
+                    params['fullshade']=(self.dailyshade>1) or (self.currentshade>1)
                     self.logger.debug(params)
                     self._loginfo(params, current)
                     self.setparameters(params)
@@ -141,7 +142,7 @@ class app(appcommon):
         return shade
     
     def DailyShade(self, appParams, params):
-        shade = False
+        shade = 0
         todaysparams = {}
     
         #get only today
@@ -150,14 +151,22 @@ class app(appcommon):
                 todaysparams[key] = params[key]
     
         if 'conditionsdaily' in appParams:
-            shade = self._getShade(appParams['conditionsdaily'], todaysparams)
+            if self._getShade(appParams['conditionsdaily'], todaysparams):
+                shade = 1
+        if 'conditionsdailyfull' in appParams:
+            if self._getShade(appParams['conditionsdaily'], todaysparams):
+                shade = 2
     
         return shade
     
     def CurrentShade(self, appParams, params):
         shade = False
         if 'conditionscurrent' in appParams:
-            shade = self._getShade(appParams['conditionscurrent'], params)
+            if self._getShade(appParams['conditionscurrent'], params):
+                shade = 1
+        if 'conditionscurrentfull' in appParams:
+            if self._getShade(appParams['conditionscurrent'], params):
+                shade = 2
     
         return shade
 
