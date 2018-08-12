@@ -62,7 +62,7 @@ class app(appcommon):
                     params = self.weatherinfo.Get5dayForecast()
                     self.dailyshade = self.DailyShade(self.appParams, params)
                 if params:
-                    params['shade']=self.dailyshade or self.currentshade
+                    params['shade']=(self.dailyshade>0) or (self.currentshade>0)
                     params['fullshade']=(self.dailyshade>1) or (self.currentshade>1)
                     self.logger.debug(params)
                     self._loginfo(params, current)
@@ -94,9 +94,9 @@ class app(appcommon):
 ######################################################### 
     def _loginfo(self, params, current):
         if current:
-            self.logger.info("T:%d, p:%f, c:%d, w:%d;%d s:%d;%d", params['current_temp'], params['current_precipation'], params['current_clouds'], params['current_windspeed'], params['current_windangle'], self.currentshade, params['shade'])
+            self.logger.info("T:%d, p:%f, c:%d, w:%d;%d s:%d;%d;%d", params['current_temp'], params['current_precipation'], params['current_clouds'], params['current_windspeed'], params['current_windangle'], self.currentshade, params['shade'], params['fullshade'])
         else:
-            self.logger.info("Tl:%d, Th: %d, p:%f, c:%d, w:%d;%d s:%d;%d", params['low0'], params['high0'], params['precipation0'], params['clouds0'], params['windspeed0'], params['windangle0'], self.dailyshade, params['shade'])
+            self.logger.info("Tl:%d, Th: %d, p:%f, c:%d, w:%d;%d s:%d;%d;%d", params['low0'], params['high0'], params['precipation0'], params['clouds0'], params['windspeed0'], params['windangle0'], self.dailyshade, params['shade'], params['fullshade'])
 
     def _getKey(self, params, key):
         retval = None
