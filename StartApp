@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 App="app_weather"
 app = getattr(__import__(App), "app")
 

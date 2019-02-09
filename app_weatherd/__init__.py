@@ -1,2 +1,0 @@
-from OpenWeatherMap import OpenWeatherMap
-from YahooWeather import YahooWeather

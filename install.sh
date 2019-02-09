@@ -116,7 +116,7 @@ then
 elif [ "$1" == "-c" ] || [ "$1" == "-C" ]
 then
 	echo "$NAME Deleting compiled files in install folder"
-	find . -name "*.pyc" -type f -delete
+	py3clean .
 elif [ "$1" == "-d" ] || [ "$1" == "-D" ]
 then
 	echo "$APPBASE install decentralized script"
@@ -132,8 +132,13 @@ then
 
 	echo "Installing $APPBASE"
 
-	find . -name "*.pyc" -type f -delete
+	py3clean .
 
+	if [ -e "$APPSLOC/$APPXML" ]; then rm -f "$APPSLOC/$APPXML"; fi
+	echo "Uninstalling $APPPY"
+	if [ -e "$APPSLOC/$APPPY" ]; then rm -f "$APPSLOC/$APPPY"; fi
+	echo "Uninstalling $APPDIR"
+	if [ -d "$APPSLOC/$APPDIR" ]; then rm -rf "$APPSLOC/$APPDIR"; fi
 	echo "Installing $APPXML"
 
 	if [ ! -e "./$APPXML" ]; then
@@ -195,7 +200,6 @@ then
 	wget https://raw.githubusercontent.com/Helly1206/Domotion/master/apps/appcommon/appcommon.py
 	wget https://raw.githubusercontent.com/Helly1206/Domotion/master/apps/appcommon/bdaclient.py
 	wget https://raw.githubusercontent.com/Helly1206/Domotion/master/apps/appcommon/bdauri.py
-	wget https://raw.githubusercontent.com/Helly1206/Domotion/master/apps/appcommon/__init__.py
 	cd $CURLOC
 
 	echo "Installing daemon $APPBASE"
@@ -241,7 +245,7 @@ else
 
 	echo "Installing $APPBASE"
 
-	find . -name "*.pyc" -type f -delete
+	py3clean .
 
 	echo "Installing $APPXML"
 

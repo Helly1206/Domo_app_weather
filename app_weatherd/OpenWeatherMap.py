@@ -6,7 +6,10 @@
 #########################################################
 
 ####################### IMPORTS #########################
-import requests, urllib, json
+from builtins import str
+from builtins import range
+from builtins import object
+import requests, urllib.request, urllib.parse, urllib.error, json
 import datetime
 import logging
 
@@ -86,7 +89,7 @@ class OpenWeatherMap(object):
                         params.update(param)
                         j += 1
                 self.logger.info("Queried: 5 day forecast")
-            except Exception, e:
+            except Exception as e:
                 self.logger.exception(e)
 
         return params
@@ -154,7 +157,7 @@ class OpenWeatherMap(object):
                     self.logger.debug("Wind angle      : %d",params['windangle'])
                     self.logger.debug("-------------------")
 
-            except Exception, e:
+            except Exception as e:
                 self.logger.exception(e)
 
         return params
@@ -221,7 +224,7 @@ class OpenWeatherMap(object):
                     self.logger.debug("Current Wind speed : %d",params['current_windspeed'])
                     self.logger.debug("Current Wind angle : %d",params['current_windangle'])
                     self.logger.debug("-------------------")
-            except Exception, e:
+            except Exception as e:
                 self.logger.exception(e)
 
         return params

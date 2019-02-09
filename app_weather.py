@@ -7,9 +7,9 @@
 #########################################################
 
 ####################### IMPORTS #########################
-from appcommon import appcommon
-from app_weatherd import YahooWeather
-from app_weatherd import OpenWeatherMap
+from appcommon.appcommon import appcommon
+from app_weatherd.YahooWeather import YahooWeather
+from app_weatherd.OpenWeatherMap import OpenWeatherMap
 from requests import ConnectionError
 
 #########################################################
@@ -46,7 +46,7 @@ class app(appcommon):
             self.logger.error("Error: XML file error")
         except ConnectionError:
             self.logger.error("Error: Obtaining location info, connection error")
-        except Exception, e:
+        except Exception as e:
             self.logger.exception(e)
         
 
@@ -72,7 +72,7 @@ class app(appcommon):
         except ConnectionError:
             self.logger.error("Error: Obtaining weather info, connection error; current:%d; retry in 1m", current)
             self.tryAgainIn1Minute(current)
-        except Exception, e:
+        except Exception as e:
             self.logger.exception(e)
 
     def exit(self):
@@ -84,7 +84,7 @@ class app(appcommon):
         rvalue = None
         if tag:
             if not value and params: # set is not allowed, get is
-                if tag in params.keys():
+                if tag in list(params.keys()):
                     rtag = tag
                     rvalue = params[tag]
         return rtag, rvalue
@@ -100,7 +100,7 @@ class app(appcommon):
 
     def _getKey(self, params, key):
         retval = None
-        for paramkey in params.keys():
+        for paramkey in list(params.keys()):
             if key in paramkey:
                 retval = paramkey
     
@@ -127,11 +127,11 @@ class app(appcommon):
     def _getShade(self, shadeParams, params):
         shade = False
     
-        for param in shadeParams.keys():
+        for param in list(shadeParams.keys()):
             if isinstance(shadeParams[param],dict):
                 _shade = True
                 count = 0
-                for subparam in shadeParams[param].keys():
+                for subparam in list(shadeParams[param].keys()):
                     _shade = _shade and self._getShadeParam(shadeParams[param], subparam, params)
                     count += 1
                 if count > 0:
@@ -146,7 +146,7 @@ class app(appcommon):
         todaysparams = {}
     
         #get only today
-        for key in params.keys():
+        for key in list(params.keys()):
             if key[-1] == '0':
                 todaysparams[key] = params[key]
     

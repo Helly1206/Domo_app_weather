@@ -1,4 +1,4 @@
-app_weather v0.9.1
+app_weather v0.9.2
 =========== ======
 
 This is a Domotion app optaining the weather from OpenWeatherMap or Yahoo weather. Weather information can be used in Domotion to control devices.
@@ -18,7 +18,7 @@ Start as: sudo ./install.sh <arguments>
 
 Weather app can be installed in the '/opt/Domotion/apps' folder and is totally handled by Domotion. If you require the app to be installed on a different system, it is installed in '/opt/Domo_app_weather' and is started by the service as a stand-alone app. The app connects to Domotion which runs a BDA (Basic Device access) server.
 
-Domotion 1.10 or higher must be installed to be able to install apps and use then with Domotion.
+Domotion 1.2.0 or higher must be installed to be able to install apps and use then with Domotion.
 
 Settings:
 ---------

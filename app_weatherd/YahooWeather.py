@@ -6,7 +6,10 @@
 #########################################################
 
 ####################### IMPORTS #########################
-import requests, urllib, json
+from builtins import str
+from builtins import range
+from builtins import object
+import requests, urllib.request, urllib.parse, urllib.error, json
 import logging
 
 #########################################################
@@ -44,7 +47,7 @@ class YahooWeather(object):
 
     def GetLocation(self, LocationStr):
         woeid_query='select woeid from geo.places(1) where text="{}"'.format(LocationStr)
-        yql_url = self.baseurl + urllib.urlencode({'q':woeid_query}) + "&format=json"
+        yql_url = self.baseurl + urllib.parse.urlencode({'q':woeid_query}) + "&format=json"
         result = requests.get(yql_url)
         data = json.loads(result.text)
 
@@ -73,7 +76,7 @@ class YahooWeather(object):
 
             try:
                 yql_query = "select item.forecast from weather.forecast where woeid={}{}".format(self.woeid,yql_unit)
-                yql_url = self.baseurl + urllib.urlencode({'q':yql_query}) + "&format=json"
+                yql_url = self.baseurl + urllib.parse.urlencode({'q':yql_query}) + "&format=json"
                 result = requests.get(yql_url)
                 data = json.loads(result.text)
                 forecast=data['query']['results']['channel']
@@ -116,7 +119,7 @@ class YahooWeather(object):
 
             try:
                 yql_query = "select item.condition,wind from weather.forecast where woeid={}{}".format(self.woeid,yql_unit)
-                yql_url = self.baseurl + urllib.urlencode({'q':yql_query}) + "&format=json"
+                yql_url = self.baseurl + urllib.parse.urlencode({'q':yql_query}) + "&format=json"
                 result = requests.get(yql_url)
                 data = json.loads(result.text)
 
