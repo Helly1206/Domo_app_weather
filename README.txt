@@ -1,7 +1,7 @@
-app_weather v0.9.2
+app_weather v0.9.3
 =========== ======
 
-This is a Domotion app optaining the weather from OpenWeatherMap or Yahoo weather. Weather information can be used in Domotion to control devices.
+This is a Domotion app obtaining the weather from OpenWeatherMap or Yahoo weather. Weather information can be used in Domotion to control devices.
 
 Install:
 --------
@@ -11,8 +11,8 @@ Start as: sudo ./install.sh <arguments>
   <no argument>: install app_weather
   -u/ -U       : uninstall app_weather
   -h/ -H       : this help file
-  -d/ -D       : install decentralized (on another location, '/opt/Domo_app_weather', when running standalone not on the Domotion system)
-  -e/ -E       : uninstall decentralized (on another location)  
+  -l/ -l       : install decentralized (on another location, '/opt/Domo_app_weather', when running standalone not on the Domotion system)
+  -e/ -E       : uninstall decentralized (on another location)
   -c/ -C       : Cleanup compiled files in install folder
   <folder>     : as second argument, alternative installation folder (service needs to be adapted manually if used)
 
@@ -45,7 +45,7 @@ The following settings can be altered:
 		</conditionscurrent>
 		<conditionsdailyfull>							--> Same as conditionsdaily, but to set the fullshade parameter
 			<high>28</high>
-			<low>-20</low>		
+			<low>-20</low>
 		</conditionsdailyfull>
 		<conditionscurrentfull>							--> Same as conditionscurrent, but to set the fullshade parameter
 			<temp>28</temp>

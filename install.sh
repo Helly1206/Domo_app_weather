@@ -9,6 +9,7 @@ ETCLOC="$ETCDIR/$NAME"
 OPTDIR="/opt"
 OPTLOC="$OPTDIR/$NAME"
 APPS="apps"
+APPLOC="$OPTLOC/$APPS"
 APPSNAME="DomoApps"
 STARTAPP="StartApp"
 SERV=".service"
@@ -17,14 +18,15 @@ APPSSERVICESCRIPT="$APPSNAME""$SERV"
 PRE="app_"
 PY=".py"
 XML=".xml"
+DEBFOLDER="debian"
 
 if [ "$EUID" -ne 0 ]
-then 
+then
 	echo "Please execute as root ('sudo install.sh')"
 	exit
 fi
 
-APPNAME=$(find . -name "$PRE"*"$PY")
+APPNAME=$(find ".$APPLOC" -name "$PRE"*"$PY")
 APPBASE=$(basename "$APPNAME" "$PY")
 
 if [ -z "$APPNAME" ]
@@ -49,6 +51,8 @@ then
 		OPTLOC="$2"
 	fi
 
+    APPSLOC="$OPTLOC/$APPS"
+
 	if [ ! -d "$OPTLOC" ]; then
 		echo "Domotion installation not found"
 		echo "Try: ./install.sh -u <alternative folder name>"
@@ -56,18 +60,16 @@ then
 		exit
 	fi
 
-	APPSLOC="$OPTLOC/$APPS"
-
 	if [ ! -d "$APPSLOC" ]; then
 		echo "Domotion apps not found"
 		echo "This Domotion version is probably not able to deal with apps"
 		echo "or the selected installation folder is incorrect"
 		exit
 	fi
-	
+
 	echo "Uninstalling $APPBASE"
 	systemctl stop $APPSSERVICESCRIPT
-	
+
 	echo "Uninstalling $APPXML"
 	if [ -e "$APPSLOC/$APPXML" ]; then rm -f "$APPSLOC/$APPXML"; fi
 	echo "Uninstalling $APPPY"
@@ -96,7 +98,7 @@ then
 	systemctl stop "$SERVICESCRIPT"
 	systemctl disable "$SERVICESCRIPT"
 	if [ -e "$SERVICEDIR/$SERVICESCRIPT" ]; then rm -f "$SERVICEDIR/$SERVICESCRIPT"; fi
-	
+
 	echo "Uninstalling $APPBASE"
 
 	if [ -d "$OPTLOC2" ]; then rm -rf "$OPTLOC2"; fi
@@ -109,15 +111,35 @@ then
 	echo "  <no argument>: install $APPBASE"
 	echo "  -u/ -U       : uninstall $APPBASE"
 	echo "  -h/ -H       : this help file"
-	echo "  -d/ -D       : install decentralized (on another location)"
+    echo "  -d/ -D       : build debian package"
+    echo "  -s/ -S       : build debian standalone package"
+	echo "  -l/ -L       : install decentralized (on another location)"
 	echo "  -e/ -E       : uninstall decentralized (on another location)"
 	echo "  -c/ -C       : Cleanup compiled files in install folder"
 	echo "  <folder>     : as second argument, alternative installation folder"
 elif [ "$1" == "-c" ] || [ "$1" == "-C" ]
 then
-	echo "$NAME Deleting compiled files in install folder"
+	echo "$APPBASE Deleting compiled files in install folder"
 	py3clean .
+    rm -f ./*.deb
+    rm -rf "$DEBFOLDER"
 elif [ "$1" == "-d" ] || [ "$1" == "-D" ]
+then
+	echo "$APPBASE build debian package"
+    rm -rf "$DEBFOLDER"
+    cp -R debianapp "$DEBFOLDER"
+	py3clean .
+	fakeroot debian/rules clean binary
+	mv ../*.deb .
+elif [ "$1" == "-s" ] || [ "$1" == "-S" ]
+then
+	echo "$APPBASE build debian standalone package"
+    rm -rf "$DEBFOLDER"
+    cp -R debiansta "$DEBFOLDER"
+	py3clean .
+	fakeroot debian/rules clean binary
+	mv ../*.deb .
+elif [ "$1" == "-l" ] || [ "$1" == "-L" ]
 then
 	echo "$APPBASE install decentralized script"
 
@@ -128,7 +150,7 @@ then
 	if [ ! -d "$OPTLOC2" ]; then
 		mkdir "$OPTLOC2"
 		chmod 755 "$OPTLOC2"
-	fi	
+	fi
 
 	echo "Installing $APPBASE"
 
@@ -144,12 +166,12 @@ then
 	if [ ! -e "./$APPXML" ]; then
 		echo "$APPXML not found for this app, skipping"
 	else
-		if [ ! -d "$ETCLOC" ]; then 
-			mkdir "$ETCLOC" 
+		if [ ! -d "$ETCLOC" ]; then
+			mkdir "$ETCLOC"
 			chmod 755 "$ETCLOC"
 		fi
-		if [ ! -e "$ETCLOC/$APPXML" ]; then 
-			$INSTALL_DATA "./$APPXML" "$ETCLOC/$APPXML"
+		if [ ! -e "$ETCLOC/$APPXML" ]; then
+			$INSTALL_DATA ".$ETCLOC/$APPXML" "$ETCLOC/$APPXML"
 		fi
 	fi
 
@@ -158,7 +180,7 @@ then
 	if [ ! -e "./$APPPY" ]; then
 		echo "$APPPY not found for this app, skipping"
 	else
-		$INSTALL_PROGRAM "./$APPPY" "$OPTLOC2/$APPPY"
+		$INSTALL_PROGRAM ".$APPLOC/$APPPY" "$OPTLOC2/$APPPY"
 	fi
 
 	echo "Installing $APPDIR"
@@ -166,24 +188,24 @@ then
 	if [ ! -e "./$APPDIR" ]; then
 		echo "$APPDIR not found for this app, skipping"
 	else
-		$INSTALL_FOLDER "./$APPDIR" "$OPTLOC2/$APPDIR"
-	fi	
+		$INSTALL_FOLDER ".$APPLOC/$APPDIR" "$OPTLOC2/$APPDIR"
+	fi
 
 	echo "Installing $STARTAPP"
 
 	if [ ! -e "./$STARTAPP" ]; then
 		echo "$STARTAPP not found for this app, skipping"
 	else
-		$INSTALL_PROGRAM "./$STARTAPP" "$OPTLOC2/$STARTAPP"
+		$INSTALL_PROGRAM ".$OPT/$STARTAPP" "$OPTLOC2/$STARTAPP"
 	fi
 
 	echo "Installing text files"
 	if [ -e "./$CHANGELOG.txt" ]; then
 		$INSTALL_PROGRAM "./$CHANGELOG.txt" "$OPTLOC2/$CHANGELOG.txt"
-	fi	
+	fi
 	if [ -e "./$LICENSE.txt" ]; then
 		$INSTALL_PROGRAM "./$LICENSE.txt" "$OPTLOC2/$LICENSE.txt"
-	fi	
+	fi
 	if [ -e "./$README.txt" ]; then
 		$INSTALL_PROGRAM "./$README.txt" "$OPTLOC2/$README.txt"
 	fi
@@ -210,7 +232,7 @@ then
 		echo "Skipping install automatic startup service for $APPBASE"
 	else
 		echo "Install automatic startup service for $APPBASE"
-		$INSTALL_DATA "./$SERVICESCRIPT" "$SERVICEDIR/$SERVICESCRIPT"
+		$INSTALL_DATA ".$SERVICEDIR/$SERVICESCRIPT" "$SERVICEDIR/$SERVICESCRIPT"
 
 		systemctl enable $SERVICESCRIPT
 		systemctl start $SERVICESCRIPT
@@ -229,7 +251,7 @@ else
 
 	if [ ! -d "$OPTLOC" ]; then
 		echo "Domotion installation not found"
-		echo "Try: ./install.sh <alternative folder name>"
+		echo "Try: ./install.sh -l <alternative folder name>"
 		echo "See also: ./install.sh -h"
 		exit
 	fi
@@ -252,12 +274,12 @@ else
 	if [ ! -e "./$APPXML" ]; then
 		echo "$APPXML not found for this app, skipping"
 	else
-		if [ ! -d "$ETCLOC" ]; then 
-			mkdir "$ETCLOC" 
+		if [ ! -d "$ETCLOC" ]; then
+			mkdir "$ETCLOC"
 			chmod 755 "$ETCLOC"
 		fi
-		if [ ! -e "$ETCLOC/$APPXML" ]; then 
-			$INSTALL_DATA "./$APPXML" "$ETCLOC/$APPXML"
+		if [ ! -e "$ETCLOC/$APPXML" ]; then
+			$INSTALL_DATA ".$ETCLOC/$APPXML" "$ETCLOC/$APPXML"
 		fi
 	fi
 
@@ -266,7 +288,7 @@ else
 	if [ ! -e "./$APPPY" ]; then
 		echo "$APPPY not found for this app, skipping"
 	else
-		$INSTALL_PROGRAM "./$APPPY" "$APPSLOC/$APPPY"
+		$INSTALL_PROGRAM ".$APPLOC/$APPPY" "$APPSLOC/$APPPY"
 	fi
 
 	echo "Installing $APPDIR"
@@ -274,8 +296,8 @@ else
 	if [ ! -e "./$APPDIR" ]; then
 		echo "$APPDIR not found for this app, skipping"
 	else
-		$INSTALL_FOLDER "./$APPDIR" "$APPSLOC/$APPDIR"
-	fi	
+		$INSTALL_FOLDER ".$APPLOC/$APPDIR" "$APPSLOC/$APPDIR"
+	fi
 
 	echo "Installation finished, try restarting $APPSNAME service to include and start app"
 	systemctl stop $APPSSERVICESCRIPT

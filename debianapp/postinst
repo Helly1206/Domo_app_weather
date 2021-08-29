@@ -1,0 +1,14 @@
+#!/bin/bash
+APPSNAME="DomoApps"
+SERV=".service"
+ETCDIR="/etc"
+SERVICEDIR="$ETCDIR/systemd/system"
+APPSSERVICESCRIPT="$APPSNAME""$SERV"
+
+echo "Installation finished, try restarting $APPSNAME service to include and start app"
+if [ -f "$SERVICEDIR/$APPSSERVICESCRIPT" ]; then
+    systemctl stop $APPSSERVICESCRIPT
+    systemctl start $APPSSERVICESCRIPT
+fi
+
+exit 0

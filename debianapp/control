@@ -1,0 +1,15 @@
+Source: app-weather
+Section: net
+Priority: optional
+Maintainer: Helly1206
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+XB-Plugin-Section: sharing
+
+Package: app-weather
+Architecture: all
+Depends: Domotion,
+         python3,
+         python3-pip,
+         ${misc:Depends}
+Description: app-weather (Domotion app obtaining weather)

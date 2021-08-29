@@ -1,0 +1,14 @@
+#!/bin/bash
+SERVICENAME="Domo_app_weather"
+SERV=".service"
+ETCDIR="/etc"
+SERVICEDIR="$ETCDIR/systemd/system"
+SERVICESCRIPT="$SERVICENAME""$SERV"
+
+if [ -f "$SERVICEDIR/$SERVICESCRIPT" ]; then
+    systemctl stop "$SERVICESCRIPT"
+    echo "Uninstalling service $SERVICENAME"
+    systemctl disable "$SERVICESCRIPT"
+fi
+
+exit 0

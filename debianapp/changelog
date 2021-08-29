@@ -1,0 +1,5 @@
+app-weather (0.93) stable; urgency=low
+
+  * Changing installation for DPKG/ APT compatibility
+
+ -- Helly1206 <hellyrulez@hotmail.com>  Sun, 29 Aug 2021 20:49:53 +0100
