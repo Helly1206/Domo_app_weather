@@ -8,7 +8,7 @@ XB-Plugin-Section: sharing
 
 Package: app-weather
 Architecture: all
-Depends: Domotion,
+Depends: domotion,
          python3,
          python3-pip,
          ${misc:Depends}
